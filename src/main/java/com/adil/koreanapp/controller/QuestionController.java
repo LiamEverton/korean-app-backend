@@ -30,7 +30,7 @@ public class QuestionController {
         return questions;
     }
 
-    @PostMapping(value = "/question/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/question/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity postQuestion(@RequestBody Question question){
         System.out.println("add question");
         questions.addQuestion(question);
@@ -38,10 +38,10 @@ public class QuestionController {
 
     }
     @PostMapping(value = "/questions", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity postQuestions(@RequestBody Questions questions){
+    public ResponseEntity<Questions> postQuestions(@RequestBody Questions questions){
         System.out.println("add question");
         this.questions = questions;
-        return new ResponseEntity<Question>(this.questions.getQuestion(0),HttpStatus.CREATED);
+        return new ResponseEntity<Questions>(this.questions,HttpStatus.CREATED);
 
     }
 }

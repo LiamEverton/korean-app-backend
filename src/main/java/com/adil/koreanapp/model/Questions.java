@@ -19,7 +19,6 @@ public class Questions {
     }
 
 
-    @JsonCreator
     public Question getQuestion(int id){
         return questions.get(id);
     }

@@ -30,16 +30,17 @@ class KoreanappApplicationTests {
 			"{question: \"Type D\", answer: \"D\"}]}";
 
 	MockMvc mockMvc;
+	QuestionController questionController = new QuestionController();
 
 	@BeforeEach
 	void setup(){
-		this.mockMvc = MockMvcBuilders.standaloneSetup(new QuestionController()).build();
+		this.mockMvc = MockMvcBuilders.standaloneSetup(questionController).build();
 
 	}
 
 	@Test
 	void ShouldPostQuestion() throws Exception {
-		mockMvc.perform(post("/questions/question/1").content(asJsonString(new Question("Type B", "B")))
+		mockMvc.perform(post("/questions/question/").content(asJsonString(new Question("Type B", "B")))
 						.contentType(MediaType.APPLICATION_JSON_VALUE)
 						.accept(MediaType.APPLICATION_JSON_VALUE))
 				.andExpect(status().isCreated())
@@ -48,9 +49,7 @@ class KoreanappApplicationTests {
 	}
 	@Test
 	void shouldGetQuestion() throws Exception {
-		mockMvc.perform(post("/questions/question/0").content(asJsonString(new Question("Type A", "A")))
-				.contentType(MediaType.APPLICATION_JSON_VALUE)
-				.accept(MediaType.APPLICATION_JSON_VALUE));
+		questionController.postQuestion(new Question("Type A", "A"));
 		mockMvc.perform(get("/questions/question/0"))
 				.andExpect(status().isOk())
 				.andExpect(content().json("{question: \"Type A\", answer: \"A\"}"));
