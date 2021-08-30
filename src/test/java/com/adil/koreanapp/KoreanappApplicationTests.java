@@ -2,9 +2,13 @@ package com.adil.koreanapp;
 
 import com.adil.koreanapp.controller.QuestionController;
 import com.adil.koreanapp.model.Question;
+import com.adil.koreanapp.repository.QuestionRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -14,6 +18,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.assertj.core.internal.bytebuddy.matcher.ElementMatchers.is;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -31,6 +36,7 @@ class KoreanappApplicationTests {
 
 	MockMvc mockMvc;
 	QuestionController questionController = new QuestionController();
+
 
 	@BeforeEach
 	void setup(){
@@ -55,6 +61,7 @@ class KoreanappApplicationTests {
 				.andExpect(content().json("{question: \"Type A\", answer: \"A\"}"));
 
 	}
+
 
 
 	@Test
