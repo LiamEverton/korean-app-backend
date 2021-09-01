@@ -22,6 +22,10 @@
 # 4. Store an IAM user access key in GitHub Actions secrets named `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.
 #    See the documentation for each action used below for the recommended IAM policies for this IAM user,
 #    and best practices on handling the access key credentials.
+env:
+  DB_DATABASE: koreanapp
+  DB_USER: root
+  DB_PASSWORD: root
 
 on:
   push:
@@ -37,20 +41,13 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     environment: production
-
+   
     steps:
-    - name: Setup MySQL
-      uses: mirromutth/mysql-action@v1.1
-      with:
-        host port: 1433 # Optional, default value is 3306. The port of host
-        container port: 3307 # Optional, default value is 3306. The port of container
-        character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
-        collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
-        mysql version: '8.0' # Optional, default value is "latest". The version of the MySQL
-        mysql database: 'koreanapp' # Optional, default value is "test". The specified database which will be create
-        #mysql root password: ${{ secrets.RootPassword }} # Required if "mysql user" is empty, default is empty. The root superuser password
-        mysql user: 'koreanuser' # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
-        mysql password: ${{ secrets.DatabasePassword }} # Required if "mysql user" exists. The password for the "mysql user"
+
+    - name: Set up MySQL
+      run: |
+        sudo /etc/init.d/mysql start
+        mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
         
     - name: Setup Java JDK
       uses: actions/setup-java@v2.3.0
@@ -86,8 +83,12 @@ jobs:
         # Workaround to pass job status to post job step. This variable is not intended for manual setting
         #job-status: # optional, default is ${{ job.status }}
 
+
     - name: Checkout
       uses: actions/checkout@v2
+      
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
