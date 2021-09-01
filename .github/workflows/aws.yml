@@ -44,8 +44,7 @@ jobs:
           MYSQL_DATABASE: koreanapp
           MYSQL_HOST: 127.0.0.1
           MYSQL_USER: koreanuser
-          MYSQL_PASSWORD: ${{ secrets.DatabasePassword }}
-          MYSQL_ROOT_PASSWORD: rootpass
+          MYSQL_PASSWORD: Password123
         ports:
           - 1433:1433
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
