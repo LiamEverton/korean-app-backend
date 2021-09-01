@@ -47,7 +47,7 @@ jobs:
 
     - name: Set up MySQL
       run: |
-        sudo /etc/init.d/mysql start -p 1433
+        sudo /etc/init.d/mysql start -P 1433
         mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
         
     - name: Setup Java JDK
