@@ -24,8 +24,8 @@
 #    and best practices on handling the access key credentials.
 env:
   DB_DATABASE: koreanapp
-  DB_USER: koreanuser
-  DB_PASSWORD: Password123
+  DB_USER: root
+  DB_PASSWORD: root
 
 on:
   push:
@@ -48,6 +48,8 @@ jobs:
       run: |
         sudo /etc/init.d/mysql start
         mysql -e 'CREATE DATABASE ${{ env.DB_DATABASE }};' -u${{ env.DB_USER }} -p${{ env.DB_PASSWORD }}
+        CREATE USER 'koreanuser'@'localhost' IDENTIFIED BY 'Password123'
+        GRANT ALL PRIVILEGES ON * . * TO 'koreanuser'@'localhost'
         
     - name: Setup Java JDK
       uses: actions/setup-java@v2.3.0
