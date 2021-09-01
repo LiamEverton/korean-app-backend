@@ -37,21 +37,21 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     environment: production
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_DATABASE: koreanapp
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_USER: koreanuser
+          MYSQL_PASSWORD: ${{ secrets.DatabasePassword }}
+          MYSQL_ROOT_PASSWORD: rootpass
+        ports:
+          - 1433:1433
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
-    - name: Setup MySQL
-      uses: mirromutth/mysql-action@v1.1
-      with:
-        host port: 1433 # Optional, default value is 3306. The port of host
-        container port: 1433 # Optional, default value is 3306. The port of container
-        character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
-        collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
-        mysql version: '8.0' # Optional, default value is "latest". The version of the MySQL
-        mysql database: 'koreanapp' # Optional, default value is "test". The specified database which will be create
-        #mysql root password: ${{ secrets.RootPassword }} # Required if "mysql user" is empty, default is empty. The root superuser password
-        mysql user: 'koreanuser' # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
-        mysql password: ${{ secrets.DatabasePassword }} # Required if "mysql user" exists. The password for the "mysql user"
-        
+  
     - name: Setup Java JDK
       uses: actions/setup-java@v2.3.0
       with:
