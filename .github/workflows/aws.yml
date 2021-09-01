@@ -85,6 +85,10 @@ jobs:
         #cache: 'maven'
         # Workaround to pass job status to post job step. This variable is not intended for manual setting
         #job-status: # optional, default is ${{ job.status }}
+        
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+
 
     - name: Checkout
       uses: actions/checkout@v2
