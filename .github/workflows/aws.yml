@@ -85,17 +85,13 @@ jobs:
         #cache: 'maven'
         # Workaround to pass job status to post job step. This variable is not intended for manual setting
         #job-status: # optional, default is ${{ job.status }}
-        
-    - name: print out directory
-      run: |
-          ls ${{ github.workspace }}
-       
-    - name: Build with Maven
-      run: mvn -B package --file /home/runner/work/korean-app-backend/korean-app/pom.xml
 
 
     - name: Checkout
       uses: actions/checkout@v2
+      
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
