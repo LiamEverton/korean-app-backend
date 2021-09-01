@@ -112,8 +112,8 @@ jobs:
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
         task-definition: task-definition.json
-        container-name: sample-app
-        image: ${{ steps.build-image.outputs.image }}
+        container-name: korean-app
+        image: httpd:2.4
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
