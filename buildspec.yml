@@ -16,5 +16,5 @@ phases:
     - mv target/koreanapp-0.0.1-SNAPSHOT.jar koreanapp-0.0.1-SNAPSHOT.jar
 artifacts:
   files:
-  - bike-service-0.0.1-SNAPSHOT.war
+  - koreanapp-0.0.1-SNAPSHOT.jar
   - .ebextensions/**/*
