@@ -113,13 +113,13 @@ jobs:
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
         task-definition: task-definition.json
-        container-name: korean-app
-        image: httpd:2.4
+        container-name: korean-container
+        image: amazonlinux:latest
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         task-definition: task-definition.json
-        service: korean-app-service
-        cluster: default
+        service: korean-service-def
+        cluster: korean-cluster
         wait-for-service-stability: true
